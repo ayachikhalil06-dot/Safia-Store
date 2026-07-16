@@ -21,12 +21,15 @@ export async function checkoutAction(formData: CheckoutFormData) {
     await clearCartAction();
     revalidatePath("/admin/orders");
     return { success: true, orderNumber: order.order_number, orderId: order.id };
-  } catch (error) {
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Erreur lors de la commande.",
-    };
   }
+  catch (error) {
+  console.error("ERREUR CHECKOUT :", error);
+
+  return {
+    success: false,
+    error: JSON.stringify(error, null, 2),
+  };
+}
 }
 
 export async function getShippingCostAction(wilayaCode: number) {
